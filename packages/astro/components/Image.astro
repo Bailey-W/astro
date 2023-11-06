@@ -10,7 +10,10 @@ type Props = LocalImageProps | RemoteImageProps;
 const props = Astro.props;
 
 if (props.alt === undefined || props.alt === null) {
-	throw new AstroError(AstroErrorData.ImageMissingAlt);
+	throw new AstroError({
+					...AstroErrorData.ImageMissingAlt,
+					message: AstroErrorData.ImageMissingAlt.message(props.src),
+				});
 }
 
 // As a convenience, allow width and height to be string with a number in them, to match HTML's native `img`.

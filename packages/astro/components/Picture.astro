@@ -23,7 +23,10 @@ const specialFormatsFallback = ['gif', 'svg'] as const;
 const { formats = defaultFormats, pictureAttributes = {}, fallbackFormat, ...props } = Astro.props;
 
 if (props.alt === undefined || props.alt === null) {
-	throw new AstroError(AstroErrorData.ImageMissingAlt);
+	throw new AstroError({
+					...AstroErrorData.ImageMissingAlt,
+					message: AstroErrorData.ImageMissingAlt.message(props.src),
+				});
 }
 
 const optimizedImages: GetImageResult[] = await Promise.all(
